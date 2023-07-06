@@ -24,7 +24,7 @@ class NettyZioTestServerInterpreter[R](eventLoopGroup: NioEventLoopGroup)
     val config = NettyConfig.default.eventLoopGroup(eventLoopGroup).randomPort.withDontShutdownEventLoopGroupOnClose
     val options = NettyZioServerOptions.default[R]
 
-    val runtime: Runtime[R] = Runtime.default.asInstanceOf[Runtime[R]]
+    val runtime: Runtime[Any] = Runtime.default
 
     val server: CancelableFuture[NettyZioServerBinding[R]] =
       Unsafe.unsafe(implicit u => runtime.unsafe.runToFuture(NettyZioServer(options, config).addRoutes(routes.toList).start()))
